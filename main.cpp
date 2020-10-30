@@ -10,7 +10,7 @@ int main() {
 
 
     std::cout << Card() << std::endl;
-
+    std::cout << "Hello, world!" << std::endl;
 
 
 

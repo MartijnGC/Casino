@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <vector>
 #include "Card.h"
 #include "Deck.h"
 
@@ -15,8 +14,8 @@ int main() {
     //std::cout << c2.toString() << " , the value is: " << c2.toValue() << std::endl;
 
     Deck d1 = Deck(1);
+    //d1.shuffle(d1.Cards);
 
-    std::cout << d1.Cards[24].toString() << std::endl;
     for (int i = 0; i < d1.Cards.size(); ++i) {
         std::cout << d1.Cards[i].toString() << " , the value is: " << d1.Cards[i].toValue() << std::endl;
     }

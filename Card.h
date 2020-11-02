@@ -23,6 +23,7 @@ enum class CardColor {
     Hearts,
     Diamonds,
     Clubs,
+    Last
 };
 
 

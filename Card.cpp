@@ -2,10 +2,12 @@
 #include "Card.h"
 #include <string>
 
+// Returns the value and type of card in string format
 std::string Card::toString() {
 
-    std::string vc, cc,card_string;
+    std::string vc, cc,card_string; // value card, color card, complete string of card
 
+    // Determine the value of the card
     switch(value) {
         case CardValue::Ace:
             vc = "Ace";
@@ -38,16 +40,17 @@ std::string Card::toString() {
             vc = "Ten";
             break;
         case CardValue::Jack:
-            vc = "Ten";
+            vc = "Jack";
             break;
         case CardValue::Queen:
-            vc = "Ten";
+            vc = "Queen";
             break;
         case CardValue::King:
-            vc = "Ten";
+            vc = "King";
             break;
     }
 
+    // Determine the color of the card
     switch (color) {
         case CardColor::Diamonds:
             cc = "Diamonds";
@@ -63,15 +66,17 @@ std::string Card::toString() {
             break;
     }
 
+    // Combine value of card + color of card and return it
     card_string = vc + " of " + cc;
     return card_string;
 }
 
+// Returns the value of the card as an integer
 int Card::toValue() {
 
-    int cv;
+    int cv;  // card value
 
-    // returns the value of the card
+    // Determine the value of the card
     switch(value) {
         case CardValue::Ace:
             cv = 1;
@@ -113,7 +118,7 @@ int Card::toValue() {
             cv = 10;
             break;
     }
-
+    // returns the card value
     return cv;
 }
 

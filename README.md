@@ -5,5 +5,5 @@ Made by: Coen van der Zijden & Martijn Hilhorst
 
 - Functies
 - Dit is een test
-
+- halo 
 etc.

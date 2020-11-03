@@ -19,7 +19,9 @@ std::vector<Card> Deck::getDeck() {
     return vecCards;
 }
 
-std::vector<Card> Deck::shuffle(std::vector<Card> Cards) {
+std::vector<Card> Deck::shuffle() {
+
+
     // code obtained from techiedelight.com/shuffle-vector-cpp/
 
     // Set random number generator seed
@@ -30,4 +32,19 @@ std::vector<Card> Deck::shuffle(std::vector<Card> Cards) {
     // Shuffles all the cards in the Deck
     std::shuffle(std::begin(Cards),std::end(Cards), std::default_random_engine(seed));
     return Cards;
+}
+
+Deck Deck::CreateDeck(int amount) {
+    // Define two decks used to add to eachother
+    Deck CompleteDeck, addDeck;
+
+    // Add amount of decks
+    for (int i = 1; i < amount; ++i) {
+        addDeck = Deck();
+
+        //append original deck with addDeck
+        CompleteDeck.Cards.insert(CompleteDeck.Cards.end(),addDeck.Cards.begin(), addDeck.Cards.end());
+    }
+
+    return CompleteDeck;
 }

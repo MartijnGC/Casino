@@ -9,15 +9,21 @@
 
 class Deck {
 public:
-    Deck(int amount) {
+    Deck() {
         Cards = getDeck();
-        Cards = shuffle(Cards);
     }
 
     std::vector<Card> Cards;
 
+    // Creates a deck
     std::vector<Card> getDeck();
-    std::vector<Card> shuffle(std::vector<Card> Cards);
+
+    // Shuffles the deck
+    std::vector<Card> shuffle();
+
+    // Creates amount of decks and returns it as one
+    Deck CreateDeck(int amount);
+
 };
 
 

@@ -14,6 +14,10 @@ Blackjack::Blackjack() {
     PlayDeck = PlayDeck.CreateDeck(amountDecks);
     PlayDeck.shuffle(); // Shuffle the deck
 
+
+    std::cout << PlayDeck.Cards[0].toString() << std::endl;
+    PlayDeck.Cards.erase(PlayDeck.Cards.begin());
+    std::cout << PlayDeck.Cards[0].toString() << std::endl;
 }
 
 

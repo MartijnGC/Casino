@@ -14,10 +14,64 @@ Blackjack::Blackjack() {
     PlayDeck = PlayDeck.CreateDeck(amountDecks);
     PlayDeck.shuffle(); // Shuffle the deck
 
+    Turns(PlayDeck);
 
-    std::cout << PlayDeck.Cards[0].toString() << std::endl;
-    PlayDeck.Cards.erase(PlayDeck.Cards.begin());
-    std::cout << PlayDeck.Cards[0].toString() << std::endl;
+//    std::cout << PlayDeck.Cards[0].toString() << std::endl;
+ //   PlayDeck.Cards.erase(PlayDeck.Cards.begin());
+//    std::cout << PlayDeck.Cards[0].toString() << std::endl;
 }
 
+int Blackjack::Turns(Deck PlayDeck) {
+    // Starts a player turn, takes the deck as an input
+
+    // Declare variables
+    bool Playing = true;
+    char HitStand;
+    int Score = 0;
+
+    // Set initial score (first two cards of the deck)
+    Score = PlayDeck.Cards[0].toValue() + PlayDeck.Cards[1].toValue();
+
+    // Output cards and score to player
+    std::cout << "Your cards are: " << PlayDeck.Cards[0].toString() << " and " << PlayDeck.Cards[1].toString() << std::endl;
+    std::cout << "Your score is: " << PlayDeck.Cards[0].toValue() + PlayDeck.Cards[1].toValue() << std::endl;
+
+    // Erases the two cards dealt from the deck
+    PlayDeck.Cards.erase(PlayDeck.Cards.begin());
+    PlayDeck.Cards.erase(PlayDeck.Cards.begin());
+
+    // Keep
+    while(Playing) {
+        std::cout << "Do you want to stand or hit (s/h)? " << std::endl;
+        std::cin >> HitStand;
+
+        if (HitStand == 's') {
+            Playing = false;
+        }
+
+        else if (HitStand == 'h') {
+            std::cout << "Your new card is: " << PlayDeck.Cards[0].toString() << std::endl;
+            Score = Score + PlayDeck.Cards[0].toValue();
+            PlayDeck.Cards.erase(PlayDeck.Cards.begin());
+            std::cout << "Your new score is: " << Score << std::endl;
+            if (Score > 21){
+                std::cout << "Bust! Your score is above 21" << std::endl;
+                break;
+            }
+
+        } else {
+            std::cout << "False input, please enter a hit (h) or a stand (s)";
+        }
+    }
+
+    std::cout << "Thanks for playing! ";
+    return 0;
+}
+
+
+
+
+int Blackjack::Dealer(int Score) {
+    return 0;
+}
 

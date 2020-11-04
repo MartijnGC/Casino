@@ -7,6 +7,8 @@
 class Blackjack {
 public:
     Blackjack();
+    int Turns(Deck PlayDeck);
+    int Dealer(int Score);
 
 
 };

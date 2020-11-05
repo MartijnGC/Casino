@@ -16,9 +16,6 @@ Blackjack::Blackjack() {
 
     Turns(PlayDeck);
 
-//    std::cout << PlayDeck.Cards[0].toString() << std::endl;
- //   PlayDeck.Cards.erase(PlayDeck.Cards.begin());
-//    std::cout << PlayDeck.Cards[0].toString() << std::endl;
 }
 
 int Blackjack::Turns(Deck PlayDeck) {
@@ -27,10 +24,10 @@ int Blackjack::Turns(Deck PlayDeck) {
     // Declare variables
     bool Playing = true;
     char HitStand;
-    int Score = 0;
+    int PlayerScore = 0, DealerScore;
 
     // Set initial score (first two cards of the deck)
-    Score = PlayDeck.Cards[0].toValue() + PlayDeck.Cards[1].toValue();
+    PlayerScore = PlayDeck.Cards[0].toValue() + PlayDeck.Cards[1].toValue();
 
     // Output cards and score to player
     std::cout << "Your cards are: " << PlayDeck.Cards[0].toString() << " and " << PlayDeck.Cards[1].toString() << std::endl;
@@ -40,21 +37,30 @@ int Blackjack::Turns(Deck PlayDeck) {
     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
 
+    // Output card of the dealer to player, save value to dealer score and remove card from pile
+    std::cout << "The dealers card is: " << PlayDeck.Cards[0].toString() << std::endl;
+    DealerScore = PlayDeck.Cards[0].toValue();
+    PlayDeck.Cards.erase(PlayDeck.Cards.begin());
+
     // Keep
     while(Playing) {
         std::cout << "Do you want to stand or hit (s/h)? " << std::endl;
         std::cin >> HitStand;
 
+        // Check input of player
         if (HitStand == 's') {
+            // When stand stop loop and let dealer play
             Playing = false;
+            Dealer(PlayerScore,DealerScore);
         }
 
         else if (HitStand == 'h') {
+            // When player hits display next card
             std::cout << "Your new card is: " << PlayDeck.Cards[0].toString() << std::endl;
-            Score = Score + PlayDeck.Cards[0].toValue();
+            PlayerScore = PlayerScore + PlayDeck.Cards[0].toValue();
             PlayDeck.Cards.erase(PlayDeck.Cards.begin());
-            std::cout << "Your new score is: " << Score << std::endl;
-            if (Score > 21){
+            std::cout << "Your new score is: " << PlayerScore << std::endl;
+            if (PlayerScore > 21){
                 std::cout << "Bust! Your score is above 21" << std::endl;
                 break;
             }
@@ -69,9 +75,8 @@ int Blackjack::Turns(Deck PlayDeck) {
 }
 
 
+int Blackjack::Dealer(int PlayerScore, int DealerScore) {
 
-
-int Blackjack::Dealer(int Score) {
     return 0;
 }
 

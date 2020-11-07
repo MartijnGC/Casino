@@ -10,7 +10,6 @@ Made by: Coen van der Zijden & Martijn Hilhorst
 - Run the file
 - Enter the amount of decks that you want to play with
 - etc.
-- hallo dit is kut
 
 
 #Rules

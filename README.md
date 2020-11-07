@@ -12,6 +12,7 @@ Made by: Coen van der Zijden & Martijn Hilhorst
 - etc.
 
 
+
 #Rules
 The goal of the game is to beat the dealer's hand without going over 21 points. 
 If you get 21 points exactly you have a "Blackjack". 

@@ -76,7 +76,7 @@ int Blackjack::Turns(Deck PlayDeck) {
 
 
 int Blackjack::Dealer(int PlayerScore, int DealerScore) {
-
+    // Dealer function
     return 0;
 }
 

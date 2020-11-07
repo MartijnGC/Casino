@@ -22,7 +22,7 @@ int main() {
 //        std::cout << d1.Cards[i].toString() << " , the value is: " << d1.Cards[i].toValue() << std::endl;
 //    }
 
-    Blackjack();
+    //Blackjack();
 
 
     return 0;

@@ -35,7 +35,7 @@ std::vector<Card> Deck::shuffle() {
 }
 
 Deck Deck::CreateDeck(int amount) {
-    // Define two decks used to add to eachother
+    // Define two decks used to add to each other
     Deck CompleteDeck, addDeck;
 
     // Add amount of decks

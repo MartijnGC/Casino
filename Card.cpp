@@ -10,43 +10,43 @@ std::string Card::toString() {
     // Determine the value of the card
     switch(value) {
         case CardValue::Ace:
-            vc = "Ace";
+            vc = "ACE";
             break;
         case CardValue::Two:
-            vc = "Two";
+            vc = "2";
             break;
         case CardValue::Three:
-            vc = "Three";
+            vc = "3";
             break;
         case CardValue::Four:
-            vc = "Four";
+            vc = "4";
             break;
         case CardValue::Five:
-            vc = "Five";
+            vc = "5";
             break;
         case CardValue::Six:
-            vc = "Six";
+            vc = "6";
             break;
         case CardValue::Seven:
-            vc = "Seven";
+            vc = "7";
             break;
         case CardValue::Eight:
-            vc = "Eight";
+            vc = "8";
             break;
         case CardValue::Nine:
-            vc = "Nine";
+            vc = "9";
             break;
         case CardValue::Ten:
-            vc = "Ten";
+            vc = "10";
             break;
         case CardValue::Jack:
-            vc = "Jack";
+            vc = "JACK";
             break;
         case CardValue::Queen:
-            vc = "Queen";
+            vc = "QUEEN";
             break;
         case CardValue::King:
-            vc = "King";
+            vc = "KING";
             break;
     }
 

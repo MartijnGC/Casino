@@ -25,11 +25,13 @@ Blackjack::Blackjack() {
     PlayDeck.shuffle(); // Shuffle the deck
 
 
-    //Run all the functions as long as the player wants to pla
+    //Run all the functions as long as the player wants to play
     while(Playing){
-        BeginGame(Money, PlayDeck);
-        Player(PlayDeck, Money);
-        Dealer(DealerScore, PlayDeck, Bust);
+        BeginGame(Bet, Money, PlayDeck, PlayerScore, DealerScore);
+        Player(PlayDeck, PlayerScore, Bust);
+        if(Bust == false){
+            Dealer(DealerScore, PlayDeck);
+        }
         Endgame(PlayerScore, DealerScore, Bet, Money);
 
 
@@ -40,15 +42,14 @@ Blackjack::Blackjack() {
                 Playing = false;
                 WrongInput = false;
             } else if (ContinuePlaying == 'y'){
-
+                Playing = true;
+                WrongInput = false;
             } else{
                 std::cout << "Please enter either 'y' of 'n'.";
                 WrongInput = true;
             }
         }while(WrongInput);
     }
-
-
     std::cout<<"Thanks for playing!";
 }
 
@@ -58,18 +59,24 @@ Blackjack::Blackjack() {
  * Create the Bet, deal 2 cards to the player and deal 1 card to the dealer
  */
 
-int Blackjack::BeginGame(int Money, Deck PlayDeck) {
-    int Bet, DealerScore, PlayerScore;
+int Blackjack::BeginGame(int &Bet, int &Money, Deck &PlayDeck, int &PlayerScore, int &DealerScore) {
 
     //Start with asking how much the player wants to bet
-    std::cout << "Your bank has " << Money << std::endl;
-    std::cout << "How much do you want to bet? " << std::endl;
-    std::cin >> Bet;
+    bool ValidBet = false;
+    do {
+        std::cout << "Your bank has " << Money << std::endl;
+        std::cout << "How much do you want to bet? " << std::endl;
+        std::cin >> Bet;
+        if(Money - Bet > 0){
+            ValidBet = true;
+        }
+    } while(ValidBet == false);
 
     // Set initial score (first two cards of the deck)
     PlayerScore = PlayDeck.Cards[0].toValue() + PlayDeck.Cards[1].toValue();
 
     // Output cards and score to player
+    std::cout << "Playerscore: " << PlayerScore << std::endl;
     std::cout << "Your cards are: " << PlayDeck.Cards[0].toString() << " and " << PlayDeck.Cards[1].toString() << std::endl;
     std::cout << "Your score is: " << PlayDeck.Cards[0].toValue() + PlayDeck.Cards[1].toValue() << std::endl;
 
@@ -91,13 +98,12 @@ int Blackjack::BeginGame(int Money, Deck PlayDeck) {
  * Here the player can choose what he wants to do (Hit or stand)
  */
 
-int Blackjack::Player(Deck PlayDeck, int PlayerScore) {
+int Blackjack::Player(Deck &PlayDeck, int &PlayerScore, bool &Bust) {
     // Starts a player turn, takes the deck and score as input
 
     // Declare variables
     bool PlayerTurn = true;
     char HitStand;
-    bool Bust;
     //int DealerScore;
 
     // Keep
@@ -116,11 +122,9 @@ int Blackjack::Player(Deck PlayDeck, int PlayerScore) {
             PlayDeck.Cards.erase(PlayDeck.Cards.begin());
             std::cout << "Your new score is: " << PlayerScore << std::endl;
             if (PlayerScore > 21) {
-                std::cout << "Bust! Your score is above 21" << std::endl;
                 Bust = true;
                 break;
             }
-
         } else {
             std::cout << "False input, please enter a hit (h) or a stand (s)";
         }
@@ -134,17 +138,15 @@ int Blackjack::Player(Deck PlayDeck, int PlayerScore) {
  * Here the dealer gets cards until his score is score is higher than or equal to 17
  */
 
-int Blackjack::Dealer(int DealerScore, Deck PlayDeck, bool Bust) {
+int Blackjack::Dealer(int &DealerScore, Deck &PlayDeck) {
     // Dealer function
-    if(Bust != true) {
-        do {
-            std::cout << "The dealers new card is: " << PlayDeck.Cards[0].toString() << std::endl;
-            DealerScore = DealerScore + PlayDeck.Cards[0].toValue();
-            std::cout << "The dealers score is: " << DealerScore << std::endl;
-            PlayDeck.Cards.erase(PlayDeck.Cards.begin());
-        } while (DealerScore <= 17);
-    }
+    do{
+        std::cout << "The dealers new card is: " << PlayDeck.Cards[0].toString() << std::endl;
+        DealerScore = DealerScore + PlayDeck.Cards[0].toValue();
+        PlayDeck.Cards.erase(PlayDeck.Cards.begin());
+    } while (DealerScore <= 17);
 
+    std::cout << "The dealers score is: " << DealerScore << std::endl;
     return 0;
 }
 
@@ -154,9 +156,12 @@ int Blackjack::Dealer(int DealerScore, Deck PlayDeck, bool Bust) {
  * Here it is decided who wins the game and the player wins or loses his bet
  */
 
-int Blackjack::Endgame(int PlayerScore, int DealerScore, int Bet, int Money) {
+int Blackjack::Endgame(int &PlayerScore, int &DealerScore, int &Bet, int &Money) {
 
-    if (DealerScore > 21) {
+    if(PlayerScore > 21){
+        std::cout << "Bust! Your score is above 21" << std::endl;
+        Money = Money - Bet;
+    } else if (DealerScore > 21) {
         std::cout << "The dealer busts! You double your bet! " << std::endl;
         Money = Money + Bet;
     } else if (DealerScore == PlayerScore) {
@@ -169,9 +174,5 @@ int Blackjack::Endgame(int PlayerScore, int DealerScore, int Bet, int Money) {
         Money = Money + Bet;
     }
 
-
-
-
-    return Money;
-
+    return 0;
 }

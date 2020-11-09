@@ -7,10 +7,10 @@
 class Blackjack {
 public:
     Blackjack();
-    int BeginGame(int Money, Deck PlayDeck);
-    int Player(Deck PlayDeck, int PlayerScore);
-    int Dealer(int DealerScore, Deck Playdeck, bool Bust);
-    int Endgame(int PlayerScore, int DealerScore, int Bet, int Money);
+    int BeginGame(int &Bet, int &Money, Deck &PlayDeck, int &PlayerScore, int &DealerScore);
+    int Player(Deck &PlayDeck, int &PlayerScore, bool &Bust);
+    int Dealer(int &DealerScore, Deck &Playdeck);
+    int Endgame(int &PlayerScore, int &DealerScore, int &Bet, int &Money);
 
 
 };

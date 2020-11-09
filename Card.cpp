@@ -79,7 +79,7 @@ int Card::toValue() {
     // Determine the value of the card
     switch(value) {
         case CardValue::Ace:
-            cv = 1;
+            cv = 11;
             break;
         case CardValue::Two:
             cv = 2;

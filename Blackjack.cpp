@@ -13,7 +13,14 @@ Blackjack::Blackjack() {
     char ContinuePlaying;
     bool WrongInput = false;
 
-
+    // Welcome player to blackjack
+    std::cout << "Welcome to: \n" << std::endl;
+    std::cout << "'||''|.   '||                  '||         '||'                 '||     \n"
+                 " ||   ||   ||   ....     ....   ||  ..      ||   ....     ....   ||  .. \n"
+                 " ||'''|.   ||  '' .||  .|   ''  || .'       ||  '' .||  .|   ''  || .'  \n"
+                 " ||    ||  ||  .|' ||  ||       ||'|.       ||  .|' ||  ||       ||'|.  \n"
+                 ".||...|'  .||. '|..'|'  '|...' .||. ||. || .|'  '|..'|'  '|...' .||. ||.\n"
+                 "__________________________________________________________________________\n"<< std::endl;
 
     // Ask user for amount of decks they want to use
     std::cout << "Enter the amount of decks you want to play with: " << std::endl;
@@ -27,30 +34,21 @@ Blackjack::Blackjack() {
 
     //Run all the functions as long as the player wants to play
     while(Playing){
-    //    int PlayerScore = 0;
-    //    int PlayerScore2 = 0;
-    //    int DealerScore = 0;
-      //  bool Bust = false;
-        //bool BlackJack = false;
-       // int valCard1;
-      //  int valCard2;
-
-
-    //    BeginGame(Bet, Money, PlayDeck, PlayerScore, DealerScore, BlackJack, valCard1, valCard2);
-    //    if(!BlackJack) {
-    //        Player(PlayDeck, PlayerScore, PlayerScore2, Bust, Bet, valCard1, valCard2);
-    //
-    //            Dealer(DealerScore, PlayDeck);
-    //        }
-    //    }
-    //    Endgame(PlayerScore, DealerScore, Bet, Money, BlackJack);
 
         PlayBlackJack(Money,PlayDeck);
+        std::cout << "__________________________________________________________________________\n"<< std::endl;
         do {
             if(Money < 5){
                 std::cout << "You do not have enough money to play anymore." << std::endl;
                 Playing = false;
+                break;
             }
+            if(PlayDeck.Cards.size() <= 15){
+                std::cout << "There are not enough cards left in the deck to play with." << std::endl;
+                Playing = false;
+                break;
+            }
+
             std::cout << "Do you want to continue playing? (y/n)" << std::endl;
             std::cin >> ContinuePlaying;
 
@@ -66,6 +64,7 @@ Blackjack::Blackjack() {
             }
         }while(WrongInput);
     }
+    std::cout<<"You left the casino with " << Money << " in the bank." << std::endl;
     std::cout<<"Thanks for playing!";
 }
 
@@ -77,7 +76,6 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
  * THE BEGINNING OF THE GAME:
  * --------------------------------------------------------------------------------------------------*/
 
-
     //Declaration of variables
     double Bet;
     bool ValidBet = false;
@@ -88,7 +86,7 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
     std::string NameCard1, NameCard2;
 
     // Creating the bet
-    std::cout << "Your bank has " << Money << std::endl;
+    std::cout << "\nYour bank has " << Money << std::endl;
     std::cout << "How much do you want to bet? The minimum bet is 5." << std::endl;
 
     // Check whether the bet entered is valid
@@ -127,7 +125,7 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
     }
 
     // Output cards and score to player
-    std::cout << "Your cards are: " << PlayDeck.Cards[0].toString() << " and " << PlayDeck.Cards[1].toString()
+    std::cout << "\nYour cards are: " << PlayDeck.Cards[0].toString() << " and " << PlayDeck.Cards[1].toString()
               << std::endl;
     std::cout << "Your score is: " << PlayDeck.Cards[0].toValue() + PlayDeck.Cards[1].toValue() << std::endl;
 
@@ -142,7 +140,7 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
 
     // Output card of the dealer to player, save value to dealer score and remove card from pile
-    std::cout << "The dealers card is: " << PlayDeck.Cards[0].toString() << std::endl;
+    std::cout << "\nThe dealers card is: " << PlayDeck.Cards[0].toString() << std::endl;
     DealerScore = PlayDeck.Cards[0].toValue();
     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
 
@@ -168,25 +166,26 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
 
     if (!BlackJack) { //If the player hits blackjack right away no cards need to be dealt to the player
 
-
         //Allow the user to split in case of two similar cards
         //NameCard1[0] = NameCard2[0];   to check the split function
         if (NameCard1[0] == NameCard2[0]) {
-            std::cout << "You have two cards that are the same. Do you want to split (y/n)?" << std::endl;
+            std::cout << "\nYou have two cards that are the same. Do you want to split (y/n)?" << std::endl;
             do {
                 std::cin >> ChoiceSplit;
                 if (ChoiceSplit == 'y') {
                     Split = true;
-                    std::cout << "Your new cards are: " << PlayDeck.Cards[0].toString() << " and "
+                    std::cout << "\nYour new cards are: " << PlayDeck.Cards[0].toString() << " and "
                               << PlayDeck.Cards[1].toString() << std::endl;
                     PlayerScore = valCard1 + PlayDeck.Cards[0].toValue();
                     PlayerScore2 = valCard2 + PlayDeck.Cards[1].toValue();
-                    std::cout << "The score of your first set is: " << PlayerScore << std::endl;
+                    std::cout << "\nThe score of your first set is: " << PlayerScore << std::endl;
                     std::cout << "The score of your second set is: " << PlayerScore2 << std::endl;
 
                     // Erases the two cards dealt from the deck
                     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
                     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
+
+                    AskAgain = false;
 
                 } else if (ChoiceSplit == 'n') {
                     AskAgain = false;
@@ -204,16 +203,16 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
 
                 //Display this only if the player split
                 if (Split && CardSet == 1) {
-                    std::cout << "On your first set: ";
+                    std::cout << "\nOn your first set: ";
                 } else if (Split && CardSet == 2) {
-                    std::cout << "On your second set: ";
+                    std::cout << "\nOn your second set: ";
                 }
 
-                // Ask what the player w
+                // Ask what the player wants to do
                 if (!DoubledDown && Turn == 1) {
-                    std::cout << "Do you want to stand, hit or double down (s/h/d)? " << std::endl;
+                    std::cout << "\nDo you want to stand, hit or double down (s/h/d)? " << std::endl;
                 } else {
-                    std::cout << "Do you want to stand or hit (s/h)? " << std::endl;
+                    std::cout << "\nDo you want to stand or hit (s/h)? " << std::endl;
                 }
                 std::cin >> PlayerAction;
 
@@ -224,7 +223,7 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
                 } else if (PlayerAction == 'h') {
 
                     // Display next card
-                    std::cout << "Your new card is: " << PlayDeck.Cards[0].toString() << std::endl;
+                    std::cout << "\nYour new card is: " << PlayDeck.Cards[0].toString() << std::endl;
                     PlayerScore = PlayerScore + PlayDeck.Cards[0].toValue();
                     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
                     std::cout << "Your new score is: " << PlayerScore << std::endl;
@@ -235,20 +234,20 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
                         PlayerTurn = false;
                     }
                 } else if (PlayerAction == 'd' && !DoubledDown && Turn == 1) {
-
                     Bet = Bet * 2;
                     DoubledDown = true;
+
                     // Display next card
-                    std::cout << "Your new card is: " << PlayDeck.Cards[0].toString() << std::endl;
+                    std::cout << "\nYour new card is: " << PlayDeck.Cards[0].toString() << std::endl;
                     PlayerScore = PlayerScore + PlayDeck.Cards[0].toValue();
                     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
                     std::cout << "Your new score is: " << PlayerScore << std::endl;
 
                     if (PlayerScore > 21) {
-                        std::cout << "Bust! Your score is above 21" << std::endl;
+                        std::cout << "Bust! Your score is above 21"<< std::endl;
                         Bust = true;
-                        PlayerTurn = false;;
                     }
+                    PlayerTurn = false;
                 } else {
                     std::cout << "False input." << std::endl;
                 }
@@ -299,7 +298,7 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
             std::cout << "The dealers new card is: " << PlayDeck.Cards[0].toString() << std::endl;
             DealerScore = DealerScore + PlayDeck.Cards[0].toValue();
             PlayDeck.Cards.erase(PlayDeck.Cards.begin());
-        } while (DealerScore <= 17);
+        } while (DealerScore <= 16);
 
         std::cout << "The dealers score is: " << DealerScore << std::endl;
     }
@@ -314,10 +313,13 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
     if (BlackJack) {
         std::cout << "You hit BlackJack right away!" << std::endl;
         Money = Money + 1.5 * Bet;
+        std::cout << "You've won: " << 1.5*Bet << std::endl;
     } else if(Bust){
         Money = Money - Bet;
+        std::cout << "You've lost: " << Bet << std::endl;
         if(Split){
             Money = Money - 2*Bet;
+            std::cout <<"And because of the split you've lost: " << Bet << std::endl;
         }
     }else{
         do {
@@ -336,16 +338,19 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
             if (PlayerScore > 21) {
 
             } else if (DealerScore > 21) {
-                std::cout << "The dealer busts! You double your bet! " << std::endl;
+                std::cout << "\nThe dealer busts! You double your bet! " << std::endl;
                 Money = Money + Bet;
+                std::cout << "You've won: " << Bet << std::endl;
             } else if (DealerScore == PlayerScore) {
-                std::cout << "You got the same score as the dealer! Your bet stays!" << std::endl;
+                std::cout << "\nYou got the same score as the dealer! Your bet stays!" << std::endl;
             } else if (DealerScore > PlayerScore) {
-                std::cout << "The dealer got a higher score! Your lose your bet!" << std::endl;
+                std::cout << "\nThe dealer got a higher score! You lose your bet!" << std::endl;
                 Money = Money - Bet;
+                std::cout << "You've lost: " << Bet << std::endl;
             } else if (DealerScore < PlayerScore) {
-                std::cout << "You got a higher score than the dealer! Your double your bet!" << std::endl;
+                std::cout << "\nYou got a higher score than the dealer! Your double your bet!" << std::endl;
                 Money = Money + Bet;
+                std::cout << "You've won: " << Bet << std::endl;
             }
 
         } while (!Done);

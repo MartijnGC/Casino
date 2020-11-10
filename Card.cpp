@@ -1,6 +1,6 @@
 
 #include "Card.h"
-#include <string>
+
 
 // Returns the value and type of card in string format
 std::string Card::toString() {

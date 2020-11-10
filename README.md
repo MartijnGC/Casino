@@ -15,7 +15,7 @@ Made by: Coen van der Zijden & Martijn Hilhorst
 The goal of the game is to beat the dealer's hand without going over 21 points. 
 If you get 21 points exactly you have a "Blackjack". 
 All the cards have different value: 
-- Ace : 11
+- Ace : 1 or 11
 - Two - Ten: The value of the card
 - Jack, Queen and King: 10
 

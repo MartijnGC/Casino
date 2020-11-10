@@ -26,7 +26,6 @@ enum class CardColor {
     Last
 };
 
-
 class Card{
 public:
     Card(CardValue value, CardColor color){
@@ -39,7 +38,5 @@ public:
     std::string toString();
     int toValue();
 };
-
-
 
 #endif //CASINO_CARD_H

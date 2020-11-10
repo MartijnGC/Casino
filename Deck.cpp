@@ -21,7 +21,6 @@ std::vector<Card> Deck::getDeck() {
 
 std::vector<Card> Deck::shuffle() {
 
-
     // code obtained from techiedelight.com/shuffle-vector-cpp/
 
     // Set random number generator seed

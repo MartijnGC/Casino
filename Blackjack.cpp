@@ -83,7 +83,8 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
     bool BlackJack;
     bool Bust = false;
     int valCard1, valCard2;
-    std::string NameCard1, NameCard2;
+    std::string NameCard1, NameCard2, NewCardName;
+    int numAce = 0;
 
     // Creating the bet
     std::cout << "\nYour bank has " << Money << std::endl;
@@ -118,6 +119,7 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
     // Dealing the cards
     // Set initial score (first two cards of the deck)
     PlayerScore = PlayDeck.Cards[0].toValue() + PlayDeck.Cards[1].toValue();
+
     if (PlayerScore == 21) {
         BlackJack = true;
     } else {
@@ -134,6 +136,21 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
     valCard2 = PlayDeck.Cards[1].toValue();
     NameCard1 = PlayDeck.Cards[0].toString();
     NameCard2 = PlayDeck.Cards[1].toString();
+
+
+    PlayerScore = 22;
+    NameCard1[0] = 'A';
+    NameCard2[0] = 'A';
+    valCard1 = 11;
+    valCard2 = 11;
+
+
+    //Check whether the player has aces
+     if(NameCard1[0] == 'A' && NameCard2[0] == 'A'){
+        numAce = 2;
+    } else if(NameCard1[0] == 'A' || NameCard2[0] == 'A'){
+        numAce = 1;
+    }
 
     // Erases the two cards dealt from the deck
     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
@@ -163,11 +180,13 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
     int Turn = 1;
     bool Bust1 = false;
     bool Bust2 = false;
+    int numAce1 = 0;
+    int numAce2 = 0;
+
 
     if (!BlackJack) { //If the player hits blackjack right away no cards need to be dealt to the player
 
         //Allow the user to split in case of two similar cards
-        //NameCard1[0] = NameCard2[0];   to check the split function
         if (NameCard1[0] == NameCard2[0]) {
             std::cout << "\nYou have two cards that are the same. Do you want to split (y/n)?" << std::endl;
             do {
@@ -178,8 +197,29 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
                               << PlayDeck.Cards[1].toString() << std::endl;
                     PlayerScore = valCard1 + PlayDeck.Cards[0].toValue();
                     PlayerScore2 = valCard2 + PlayDeck.Cards[1].toValue();
-                    std::cout << "\nThe score of your first set is: " << PlayerScore << std::endl;
-                    std::cout << "The score of your second set is: " << PlayerScore2 << std::endl;
+
+                    //Save in which set there are aces
+                    if(numAce == 2){
+                        numAce1 = 1;
+                        numAce2 = 1;
+                    }
+
+                    if(PlayDeck.Cards[0].toValue() == 11){
+                        numAce1++;
+                    } else if(PlayDeck.Cards[1].toValue() == 11){
+                        numAce2++;
+                    }
+
+                    if(PlayerScore == 22) {
+                        std::cout << "\nThe score of your first set is: " << PlayerScore - 10<< std::endl;
+                    } else{
+                        std::cout << "\nThe score of your first set is: " << PlayerScore << std::endl;
+                    }
+                    if(PlayerScore2 == 22) {
+                        std::cout << "\nThe score of your second set is: " << PlayerScore2 - 10<< std::endl;
+                    } else{
+                        std::cout << "\nThe score of your second set is: " << PlayerScore2 << std::endl;
+                    }
 
                     // Erases the two cards dealt from the deck
                     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
@@ -204,11 +244,13 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
                 //Display this only if the player split
                 if (Split && CardSet == 1) {
                     std::cout << "\nOn your first set: ";
+                    numAce = numAce1;
                 } else if (Split && CardSet == 2) {
                     std::cout << "\nOn your second set: ";
                 }
 
                 // Ask what the player wants to do
+
                 if (!DoubledDown && Turn == 1) {
                     std::cout << "\nDo you want to stand, hit or double down (s/h/d)? " << std::endl;
                 } else {
@@ -225,13 +267,22 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
                     // Display next card
                     std::cout << "\nYour new card is: " << PlayDeck.Cards[0].toString() << std::endl;
                     PlayerScore = PlayerScore + PlayDeck.Cards[0].toValue();
+                    NewCardName = PlayDeck.Cards[0].toString();
+                    if(NewCardName[0] == 'A'){
+                        numAce++;
+                    }
                     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
                     std::cout << "Your new score is: " << PlayerScore << std::endl;
 
-                    if (PlayerScore > 21) {
+                    if (PlayerScore > 21 && numAce == 0) {
                         std::cout << "Bust! Your score is above 21" << std::endl;
                         Bust = true;
                         PlayerTurn = false;
+                    } else if (PlayerScore > 21 && numAce != 0){
+                        std::cout << "You went above 21, so your Ace is now worth 1 point" << std::endl;
+                        PlayerScore = PlayerScore - 10;
+                        std::cout << "Your new score is: " << PlayerScore << std::endl;
+                        numAce--;
                     }
                 } else if (PlayerAction == 'd' && !DoubledDown && Turn == 1) {
                     Bet = Bet * 2;
@@ -240,12 +291,21 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
                     // Display next card
                     std::cout << "\nYour new card is: " << PlayDeck.Cards[0].toString() << std::endl;
                     PlayerScore = PlayerScore + PlayDeck.Cards[0].toValue();
+                    NewCardName = PlayDeck.Cards[0].toString();
+                    if(NewCardName[0] == 'A'){
+                        numAce++;
+                    }
                     PlayDeck.Cards.erase(PlayDeck.Cards.begin());
                     std::cout << "Your new score is: " << PlayerScore << std::endl;
 
-                    if (PlayerScore > 21) {
+                    if (PlayerScore > 21 && numAce == 0) {
                         std::cout << "Bust! Your score is above 21"<< std::endl;
                         Bust = true;
+                    }else if (PlayerScore > 21 && numAce != 0){
+                        std::cout << "You went above 21, so your Ace is now worth 1 point" << std::endl;
+                        PlayerScore = PlayerScore - 10;
+                        std::cout << "Your new score is: " << PlayerScore << std::endl;
+                        numAce--;
                     }
                     PlayerTurn = false;
                 } else {
@@ -266,6 +326,8 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
                 PlayerScore = PlayerScore2;
                 DoubledDown = false;
                 Turn = 1;
+                numAce = numAce2;
+
                 if (Bust) {
                     Bust1 = true;
                     Bust = false;
@@ -298,7 +360,7 @@ void Blackjack::PlayBlackJack(int &Money, Deck &PlayDeck) {
             std::cout << "The dealers new card is: " << PlayDeck.Cards[0].toString() << std::endl;
             DealerScore = DealerScore + PlayDeck.Cards[0].toValue();
             PlayDeck.Cards.erase(PlayDeck.Cards.begin());
-        } while (DealerScore <= 16);
+        } while (DealerScore <= 17);
 
         std::cout << "The dealers score is: " << DealerScore << std::endl;
     }

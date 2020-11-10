@@ -47,4 +47,3 @@ Deck Deck::CreateDeck(int amount) {
 
     return CompleteDeck;
 }
-

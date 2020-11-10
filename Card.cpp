@@ -120,5 +120,3 @@ int Card::toValue() {
     // returns the card value
     return cv;
 }
-
-
